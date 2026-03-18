@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target Servers | Spam Database</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@400;600&display=swap');
+
+        body {
+            background-color: #0d1117;
+            background-image: radial-gradient(#161b22 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #c9d1d9;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #ff4444;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 32px;
+            text-shadow: 0 0 15px rgba(255, 68, 68, 0.4);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #8b949e;
+            font-size: 16px;
+        }
+
+        .grid {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+        }
+
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 25px;
+            border-radius: 12px;
+            width: 260px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: #30363d;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: #58a6ff;
+            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .card:hover::before { background: #58a6ff; }
+
+        .card h3 {
+            color: #e6edf3;
+            margin: 15px 0 10px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #8b949e;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: rgba(255, 68, 68, 0.1);
+            color: #ff4444;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            display: inline-block;
+        }
+
+        .link-text {
+            color: #58a6ff;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .card:hover .link-text { opacity: 1; }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>☠️ SPAM SITES DATABASE</h1>
+        <div class="subtitle">Select a target website to copy its URL for testing.</div>
+    </div>
+
+    <div class="grid">
+        <a href="amazon.html" class="card" target="_blank">
+            <span class="badge">E-COMMERCE PHISHING</span>
+            <h3>Fake Amazon</h3>
+            <p>Looks like real Amazon but contains hidden SEO text, link farms, and alt-text spam.</p>
+            <div class="link-text">Open Target ➔</div>
+        </a>
+
+        <a href="insta.html" class="card" target="_blank">
+            <span class="badge">CREDENTIAL THEFT</span>
+            <h3>Fake Instagram</h3>
+            <p>Social media login trap filled with hidden keyword stuffing and malicious links.</p>
+            <div class="link-text">Open Target ➔</div>
+        </a>
+
+        <a href="danger.html" class="card" target="_blank">
+            <span class="badge">BASIC TRAPS</span>
+            <h3>Danger Site</h3>
+            <p>Standard testing page with meta-tag injection and obvious spam patterns.</p>
+            <div class="link-text">Open Target ➔</div>
+        </a>
+    </div>
+
+</body>
+</html>

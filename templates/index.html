@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black-Hat Hunter PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: radial-gradient(circle at top, #0f172a, #020617); color: #f8fafc; font-family: 'Poppins', sans-serif; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 90%; max-width: 1000px; margin: 40px auto; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-family: 'Orbitron', sans-serif; font-size: 42px; color: #00e5ff; margin-bottom: 5px; text-shadow: 0 0 20px rgba(0, 229, 255, 0.4); letter-spacing: 2px; }
+        .header p { color: #94a3b8; font-size: 16px; font-weight: 300; letter-spacing: 1px; }
+
+        .search-box { display: flex; width: 100%; margin-bottom: 20px; gap: 15px; position: relative; }
+        .search-box input { flex: 1; padding: 20px 25px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 12px; color: #00e5ff; font-family: monospace; font-size: 16px; outline: none; backdrop-filter: blur(10px); transition: all 0.3s ease; }
+        .search-box input:focus { border-color: #00e5ff; box-shadow: 0 0 25px rgba(0, 229, 255, 0.2) inset, 0 0 15px rgba(0, 229, 255, 0.3); }
+        
+        .search-box button { padding: 0 40px; background: linear-gradient(135deg, #00e5ff, #007bb5); color: #020617; border: none; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; min-width: 200px; text-transform: uppercase; letter-spacing: 1px; }
+        .search-box button:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 30px rgba(0, 229, 255, 0.5); }
+
+        .scanning-loader { display: none; width: 24px; height: 24px; border: 3px solid rgba(2, 6, 23, 0.3); border-top: 3px solid #020617; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .scanning .btn-text { display: none; }
+        .scanning .scanning-loader { display: block; }
+        .progress-container { text-align: center; height: 30px; margin-bottom: 30px; }
+        .progress-text { display: none; color: #00e5ff; font-family: monospace; font-size: 15px; text-shadow: 0 0 8px rgba(0, 229, 255, 0.6); }
+
+        .status-display { text-align: center; font-size: 28px; font-weight: 800; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        .advisory-section, .genai-section { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border-radius: 15px; padding: 25px; margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); }
+        .advisory-section { border-left: 5px solid #f59e0b; }
+        .genai-section { border-left: 5px solid #d946ef; } /* Pink/Purple for AI */
+        .advisory-section h3, .genai-section h3 { margin-top: 0; color: #f8fafc; font-size: 18px; display: flex; align-items: center; gap: 10px; }
+
+        .report-section { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px); border-radius: 15px; padding: 35px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); position: relative; }
+        .report-header { display: none; } 
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { text-align: left; padding: 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { color: #00e5ff; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid rgba(0, 229, 255, 0.3); }
+        td { color: #cbd5e1; font-size: 15px; }
+        
+        .btn-download { display: block; margin: 40px auto 0; padding: 15px 35px; background: transparent; border: 2px solid #00e5ff; color: #00e5ff; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-download:hover { background: #00e5ff; color: #020617; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); }
+
+        @media print {
+            @page { margin: 15mm; }
+            body, html { background: #ffffff !important; color: #000000 !important; height: auto !important; overflow: visible !important; display: block !important; }
+            .container { width: 100% !important; margin: 0 !important; animation: none !important; display: block !important; max-width: none !important; }
+            .header, .search-box, .progress-container, .btn-download, .scanning-loader { display: none !important; }
+            * { backdrop-filter: none !important; transform: none !important; text-shadow: none !important; transition: none !important; animation: none !important; }
+
+            .advisory-section, .genai-section { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; color: #000 !important; box-shadow: none !important; display: block !important; margin-bottom: 20px !important; padding: 20px !important; }
+            .advisory-section { border-left: 6px solid #f59e0b !important; }
+            .genai-section { border-left: 6px solid #d946ef !important; }
+            .advisory-section h3, .advisory-section p, .genai-section h3, .genai-section p, strong, span { color: #000 !important; }
+
+            .report-section { background: #ffffff !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin-top: 10px !important; display: block !important; }
+            .report-header { display: block !important; margin-bottom: 25px; border-bottom: 2px solid #000; padding-bottom: 15px; } 
+            .report-header h2 { color: #000 !important; font-size: 24px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; }
+            .meta-info { display: flex; justify-content: space-between; font-size: 14px; color: #000 !important; }
+            .status-display { color: #000 !important; margin: 20px 0; padding: 15px; border: 2px dashed #000; display: block; width: 100%; box-sizing: border-box; }
+            
+            table { border: 1px solid #000 !important; margin-top: 15px !important; width: 100% !important; border-collapse: collapse !important; display: table !important; }
+            tr { page-break-inside: avoid !important; display: table-row !important; }
+            th { color: #000 !important; background: #e2e8f0 !important; border: 1px solid #000 !important; padding: 12px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; display: table-cell !important; }
+            td { color: #000 !important; border: 1px solid #000 !important; padding: 12px !important; display: table-cell !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BLACK-HAT HUNTER <sup>PRO</sup></h1>
+            <p>Advanced AI-Powered Threat & SEO Forensic Auditor</p>
+        </div>
+
+        <form class="search-box" action="/predict" method="POST" id="scanForm">
+            <input type="text" name="url" placeholder="Enter target domain (e.g., https://example.com)" value="{{ url if url else '' }}" required autocomplete="off">
+            <button type="submit" id="scanBtn"><span class="btn-text">Initiate Scan</span><div class="scanning-loader"></div></button>
+        </form>
+
+        <div class="progress-container"><span class="progress-text" id="progressText">> Establishing secure connection...</span></div>
+
+        {% if prediction_text %}
+        <div class="status-display">
+            STATUS: <span style="color: {% if 'Critical' in prediction_text or 'Error' in prediction_text %}#ff3333{% elif 'Suspicious' in prediction_text %}#ffaa00{% else %}#00ff66{% endif %}; text-shadow: 0 0 15px {% if 'Critical' in prediction_text %}rgba(255,51,51,0.5){% elif 'Suspicious' in prediction_text %}rgba(255,170,0,0.5){% else %}rgba(0,255,102,0.5){% endif %};">
+                {{ prediction_text }}
+            </span>
+        </div>
+        {% endif %}
+
+        {% if genai_summary and 'Error' not in prediction_text %}
+        <div class="genai-section">
+            <h3>🤖 Generative AI Threat Intelligence</h3>
+            <p style="color: #cbd5e1; font-size: 14.5px; margin: 0; line-height: 1.6; font-style: italic;">"{{ genai_summary }}"</p>
+        </div>
+        {% endif %}
+
+        {% if category and 'Error' not in prediction_text %}
+        <div class="advisory-section">
+            <h3>🛡️ Domain Intelligence & Risk Advisory</h3>
+            <p style="color: #00e5ff; font-size: 14px; margin-bottom: 8px;"><strong>Category Profile:</strong> {{ category }}</p>
+            <p style="color: #cbd5e1; font-size: 14px; margin: 0; line-height: 1.6;"><strong>Security Tip:</strong> {{ scam_advice }}</p>
+        </div>
+        {% endif %}
+
+        {% if report_data %}
+        <div class="report-section">
+            <div class="report-header">
+                <h2>Cyber Forensic Audit Report</h2>
+                <div class="meta-info">
+                    <span><strong>Audited by:</strong> CSE Final Year Team</span>
+                    <span><strong>Target URL:</strong> {{ url }}</span>
+                    <span><strong>Date:</strong> <script>document.write(new Date().toLocaleDateString());</script></span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 0; color: #f8fafc; font-size: 20px; letter-spacing: 1px;">System Analysis Breakdown</h3>
+            <table>
+                <thead>
+                    <tr><th>Security Module</th><th>Status</th><th>Forensic Analysis</th></tr>
+                </thead>
+                <tbody>
+                    {% for row in report_data %}
+                    <tr>
+                        <td style="color: #00e5ff; font-weight: 600;">{{ row.module }}</td>
+                        <td style="font-weight:bold; color:{% if 'Failed' in row.status %}#ff3333{% else %}#00ff66{% endif %};">{{ row.status }}</td>
+                        <td>{{ row.analysis }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn-download" onclick="window.print()">Export Official Report (PDF)</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.getElementById('scanForm').addEventListener('submit', function() {
+            var btn = document.getElementById('scanBtn');
+            var progressText = document.getElementById('progressText');
+            btn.classList.add('scanning');
+            btn.style.pointerEvents = 'none';
+            progressText.style.display = 'inline-block';
+            
+            var steps = [
+                "> Bypassing WAF & Connecting to server...",
+                "> Extracting DOM Structure...",
+                "> Running WHOIS Domain Forensics...",
+                "> Deep Scanning for CSS Cloaking...",
+                "> Analyzing iFrame anomalies...",
+                "> Engaging Random Forest AI Model...",
+                "> Prompting GenAI for Threat Summary...",
+                "> Compiling Intelligence Report..."
+            ];
+            
+            var i = 0;
+            var interval = setInterval(function() {
+                progressText.innerText = steps[i];
+                i++;
+                if (i >= steps.length) clearInterval(interval);
+            }, 600);
+        });
+    </script>
+</body>
+</html>
